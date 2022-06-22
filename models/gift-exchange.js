@@ -18,10 +18,8 @@ class GiftExchange {
             
     
             while(names.length){
-               
-                    let pair = names.splice(0, 2);
-                    pairedNames.push(pair)
-                
+                let pair = names.splice(0, 2);
+                pairedNames.push(pair)
             }
             return pairedNames
         }

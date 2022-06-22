@@ -2,6 +2,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const myRouter = require('./routes/gift-exchange')
+const {NotFoundError} = require("./utils/errors")
 
 
 
@@ -15,11 +16,15 @@ app.get('/', (req, res) => {
     res.status(200).json({ping: 'pong'});
   });
 
+  app.use((req, res, next) => {
+    return next(new NotFoundError())
+})
+
 
 app.use ((error, req, res, next) => {
-    let newStatus = !error.status?500:error.status
-    let newMessage = !error.message?"Something wen't wrong in the application":error.message
-    return res.status(newStatus).json({error:{newStatus,newMessage}})
+    let status = error.status || 500
+    let message = error.message ||"Something wen't wrong in the application"
+    return res.status(status).json({error:{status,message}})
 }) 
 
 
